@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Training Viva Apotek</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    table { border-collapse: collapse; margin-top: 20px; }
+    td { padding: 8px 10px; vertical-align: top; }
+    label { font-weight: bold; }
+    #subKategoriBox { margin-top: 15px; display: none; }
+
+    /* Header */
+    .header {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .header img {
+      height: 80px;
+      display: block;
+    }
+
+    /* Tombol Absensi */
+    .btn-absen {
+      margin-top: 10px;
+    }
+    .btn-absen button {
+      padding: 9px 18px;
+      border: none;
+      background-color: #f3098a;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+    .btn-absen button:hover {
+      background-color: #c2076e;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <!-- Logo -->
+    <img src="D:\Master\pindahan\Landscape Cetak CMYK.png" alt="Logo Viva Apotek">
+
+    <!-- Tombol Absensi -->
+    <div class="btn-absen">
+      <a id="absen-link" href="file:///C:/Users/VH/Documents/absen_training/absen_training_1.html" target="_blank">
+        <button id="absen-button" type="button">Absensi</button>
+      </a>
+    </div>
+  </div>
+
+  <!-- Jenis Training -->
+  <label for="kategori">Jenis Training:</label><br>
+  <select id="kategori">
+    <option value="">— Pilih Jenis Training —</option>
+    <option value="online">Training Online</option>
+    <option value="offline" data-url="file:///C:/Users/VH/Documents/absen_training/absen_training_1.html">Training Offline</option>
+  </select>
+
+  <div id="subKategoriBox">
+    <label for="subKategori">Pilih Sub-Kategori:</label><br>
+    <select id="subKategori">
+      <option value="">— Pilih Sub-Kategori —</option>
+    </select>
+  </div>
+
+  <!-- Materi Training -->
+  <div style="margin-top:20px;">
+    <label for="materi">Materi Training:</label><br>
+    <select id="materi">
+      <option value="">— Pilih Materi Training —</option>
+      <option value="Training Basic APT" data-url="file:///C:/Users/VH/Documents/absen_training/materi_training_basic_APT.html">Training Basic APT</option>
+      <option value="Training Basic AA">Training Basic AA</option>
+      <option value="Training Basic Flexy">Training Basic Flexy</option>
+    </select>
+  </div>
+
+  <!-- Post Test Training -->
+  <div style="margin-top:20px;">
+    <label for="posttest">Post Test Training:</label><br>
+    <select id="posttest">
+      <option value="">— Pilih Jenis Training —</option>
+      <option value="Training Product" data-url="file:///C:/Users/VH/Documents/absen_training/posttest_product.html">Training Product</option>
+      <option value="Training Product Knowledge" data-url="file:///C:/Users/VH/Documents/absen_training/posttest_product_knowledge.html">Training Product Knowledge</option>
+      <option value="Training Basic APT" data-url="#">Training Basic APT</option>
+      <option value="Training Basic AA" data-url="#">Training Basic AA</option>
+      <option value="Training Basic Flexy" data-url="#">Training Basic Flexy</option>
+    </select>
+  </div>
+
+  <script>
+    // --- Utility: buka link dari <option> ---
+    function bindDropdown(id) {
+      const dropdown = document.getElementById(id);
+      if (!dropdown) return;
+      dropdown.addEventListener("change", function () {
+        const sel = this.options[this.selectedIndex];
+        const url = sel.dataset.url;
+        if (url) {
+          window.open(url, "_blank");
+        }
+      });
+    }
+
+    // --- Jenis Training + SubKategori ---
+    const kategori = document.getElementById("kategori");
+    const subKategoriBox = document.getElementById("subKategoriBox");
+    const subKategori = document.getElementById("subKategori");
+
+    const onlineSubs = [
+      { value: "basic-apt", text: "Basic Training APT", url: "file:///C:/Users/VH/Documents/absen_training/pre_test_basic_APT.html" },
+      { value: "basic-aa", text: "Basic Training AA", url: "https://example.com/aa" },
+      { value: "basic-flexy", text: "Basic Training Flexy", url: "" }
+    ];
+
+    kategori.addEventListener("change", function () {
+      const val = this.value;
+      const selectedOption = this.options[this.selectedIndex];
+
+      if (val === "online") {
+        subKategori.innerHTML = '<option value="">— Pilih Sub-Kategori —</option>';
+        onlineSubs.forEach(item => {
+          const opt = document.createElement("option");
+          opt.value = item.value;
+          opt.textContent = item.text;
+          if (item.url) opt.dataset.url = item.url;
+          subKategori.appendChild(opt);
+        });
+        subKategoriBox.style.display = "block";
+      } else {
+        subKategoriBox.style.display = "none";
+        subKategori.innerHTML = '';
+      }
+
+      const url = selectedOption.dataset.url;
+      if (url && val !== "online") {
+        window.open(url, "_blank");
+      }
+    });
+
+    subKategori.addEventListener("change", function () {
+      const sel = this.options[this.selectedIndex];
+      const url = sel.dataset.url;
+      if (url) {
+        window.open(url, "_blank");
+      }
+    });
+
+    // --- Bind Dropdown Lain ---
+    bindDropdown("materi");
+    bindDropdown("posttest");
+  </script>
+</body>
+</html>

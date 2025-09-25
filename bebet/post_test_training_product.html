@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Post-Test Training Product</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+      }
+      #timer {
+        font-size: 2em;
+        color: red;
+        font-weight: bold;
+      }
+      .container {
+        max-width: 700px;
+        margin: auto;
+      }
+      h2 {
+        text-align: center;
+      }
+      .question {
+        margin-bottom: 20px;
+      }
+      .question p {
+        font-weight: bold;
+      }
+      button {
+        padding: 10px 20px;
+        background-color: #c42883;
+        border: none;
+        color: white;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #a31c6b;
+      }
+      table {
+        margin-bottom: 30px;
+        width: 100%;
+      }
+      td {
+        padding: 5px;
+      }
+      label {
+        font-weight: normal;
+      }
+      img.logo {
+        display: block;
+        margin: 0 auto 20px auto;
+      }
+      button:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+      }
+      /* Soal default tersembunyi */
+      #soalBox {
+        display: none;
+      }
+      /* Evaluasi Training disembunyikan dulu */
+      #evaluasiBox {
+        display: none;
+        margin-top: 20px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Logo -->
+      <img
+        src="D:\Master\pindahan\Landscape Cetak CMYK.png"
+        width="300"
+        height="80"
+        alt="Logo Viva Apotek"
+        class="logo"
+      />
+
+      <!-- Form Data Diri -->
+      <form id="dataForm">
+        <table>
+          <tr>
+            <td><label for="name">Nama Lengkap:</label></td>
+            <td><input type="text" id="name" name="name" /></td>
+          </tr>
+          <tr>
+            <td><label for="nik">NIK:</label></td>
+            <td><input type="text" id="nik" name="nik" /></td>
+          </tr>
+        </table>
+        <button type="submit">Mulai Test</button>
+      </form>
+
+      <!-- Box Soal -->
+      <div id="soalBox">
+        <!-- Judul Pre-Test -->
+        <h2>Post-Test Training Product</h2>
+        <div id="timer">30:00</div>
+
+        <form id="testForm">
+          <!-- Soal 1 -->
+          <div class="question">
+            <p>
+              Apa kandungan bahan alami di bawah ini yang bermanfaat sebagai
+              super antioksidan?
+            </p>
+            <label><input type="radio" name="q1" value="a" /> a. Hyaluronic acid</label><br />
+            <label><input type="radio" name="q1" value="b" /> b. Niacinamide</label><br />
+            <label><input type="radio" name="q1" value="c" /> c. Astaxanthin</label><br />
+            <label><input type="radio" name="q1" value="d" /> d. Posbiotic</label>
+          </div>
+
+          <!-- Soal 2 -->
+          <div class="question">
+            <p>
+              Bahan alami yang terdapat pada Natur-E Advance Age Rejuve & Glow
+              Series adalah:
+            </p>
+            <label><input type="radio" name="q2" value="a" /> a. Astaxantine, Vit E, Lycopene, Postbiotic</label><br />
+            <label><input type="radio" name="q2" value="b" /> b. Astaxantine, Glutathione, Olive Extract</label><br />
+            <label><input type="radio" name="q2" value="c" /> c. Astaxantine, Lumiglow, Vit E</label><br />
+            <label><input type="radio" name="q2" value="d" /> d. Astaxantine, Vit E, e-Beads</label>
+          </div>
+
+          <!-- Soal 3 -->
+          <div class="question">
+            <p>
+              Berikut ini adalah keunggulan dari produk Natur-E Advance Age
+              Rejuve & Glow Series:
+            </p>
+            <label><input type="radio" name="q3" value="a" /> a. Mengurangi Kerutan, Meningkatkan elastisitas kulit & menyamarkan flek hitam</label><br />
+            <label><input type="radio" name="q3" value="b" /> b. Tone Up Effect</label><br />
+            <label><input type="radio" name="q3" value="c" /> c. Menyebabkan Kulit Kering</label><br />
+            <label><input type="radio" name="q3" value="d" /> d. Menyebabkan jerawat</label>
+          </div>
+
+          <button type="submit">Kirim Jawaban</button>
+        </form>
+      </div>
+
+      <!-- Evaluasi Training -->
+      <div id="evaluasiBox">
+        <p>Isi Link Evaluasi Training</p>
+        <a href="file:///C:/Users/VH/Documents/absen_training/evaluasi_training.html" target="_blank">
+          <button type="button">Evaluasi Training</button>
+        </a>
+      </div>
+    </div>
+
+    <script>
+      let waktu = 1800; // 30 menit
+      let countdown;
+
+      // Timer
+      function mulaiTimer() {
+        let timerDisplay = document.getElementById("timer");
+        countdown = setInterval(function () {
+          let menit = Math.floor(waktu / 60);
+          let detik = waktu % 60;
+          menit = menit < 10 ? "0" + menit : menit;
+          detik = detik < 10 ? "0" + detik : detik;
+          timerDisplay.textContent = menit + ":" + detik;
+
+          if (waktu <= 0) {
+            clearInterval(countdown);
+            alert("Waktu habis! Jawaban otomatis dikumpulkan.");
+            KirimJawaban();
+          }
+          waktu--;
+        }, 1000);
+      }
+
+      // Saat klik Mulai Test
+      document.getElementById("dataForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const nama = document.getElementById("name").value.trim();
+        const nik = document.getElementById("nik").value.trim();
+
+        if (!nama || !nik) {
+          alert("Harap isi Nama dan NIK terlebih dahulu!");
+          return;
+        }
+
+        // Sembunyikan form data diri, tampilkan soal
+        document.getElementById("dataForm").style.display = "none";
+        document.getElementById("soalBox").style.display = "block";
+
+        // Mulai timer
+        mulaiTimer();
+      });
+
+      // Kirim Jawaban
+      function KirimJawaban(event) {
+        if (event) event.preventDefault();
+        clearInterval(countdown);
+
+        const q1 = document.querySelector('input[name="q1"]:checked');
+        const q2 = document.querySelector('input[name="q2"]:checked');
+        const q3 = document.querySelector('input[name="q3"]:checked');
+
+        if (!q1 || !q2 || !q3) {
+          alert("Harap jawab semua soal sebelum mengirim!");
+          return;
+        }
+
+        alert("Jawaban berhasil dikumpulkan!");
+
+        // Tampilkan link evaluasi setelah soal selesai
+        document.getElementById("soalBox").style.display = "none";
+        document.getElementById("evaluasiBox").style.display = "block";
+      }
+
+      document.getElementById("testForm").addEventListener("submit", KirimJawaban);
+    </script>
+  </body>
+</html>

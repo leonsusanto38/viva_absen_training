@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Absensi Training Viva Apotek</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    td {
+      padding: 8px 10px;
+      vertical-align: top;
+    }
+    label {
+      font-weight: bold;
+    }
+
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+  <img src="D:\Master\pindahan\Landscape Cetak CMYK.png" width="300" height="80" alt="Logo Viva Apotek">
+  <h2>Absensi Training Viva Apotek</h2>
+
+  <form action="thankyou.html" method="post">
+    <table>
+      <tr>
+        <td><label for="tanggal-training">Tanggal Training:</label></td>
+        <td><input type="date" id="tanggal-training" name="tanggal-training" required></td>
+      </tr>
+      <tr>
+        <td><label for="nama-training">Nama Training:</label></td>
+        <td>
+          <select id="nama-training" name="nama-training" required onchange="updatePreTestLink()">
+            <option value="" selected disabled>-- Pilih Training --</option>
+            <option value="Training Product">Training Product</option>
+            <option value="Training Product Knowledge">Training Product Knowledge</option>
+            <option value="Training Basic Apoteker">Training Basic Apoteker</option>
+            <option value="Training Intermediate Apoteker">Training Intermediate Apoteker</option>
+            <option value="Training Refreshment Apoteker">Training Refreshment Apoteker</option>
+            <option value="Training Basic AA">Training Basic AA</option>
+            <option value="Training Intermediate AA">Training Intermediate AA</option>
+            <option value="Training Refreshment AA">Training Refreshment AA</option>
+            <option value="Training Basic Flexy">Training Basic Flexy</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td><label for="name">Nama Lengkap:</label></td>
+        <td><input type="text" id="name" name="name" required></td>
+      </tr>
+      <tr>
+        <td><label for="nik">NIK:</label></td>
+        <td><input type="text" id="nik" name="nik" required></td>
+      </tr>
+      <tr>
+        <td><label for="jabatan">Jabatan:</label></td>
+        <td>
+          <select id="jabatan" name="jabatan" required>
+            <option value="" selected disabled>-- Pilih Jabatan --</option>
+            <option value="Apoteker">Apoteker</option>
+            <option value="Asisten Apoteker">Asisten Apoteker</option>
+            <option value="Flexy">Flexy</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td><label for="apotek">Nama Apotek:</label></td>
+        <td><input type="text" id="apotek" name="apotek" required></td>
+      </tr>
+      <tr>
+        <td><label for="region">Region:</label></td>
+        <td>
+          <select id="region" name="region" required>
+            <option value="" selected disabled>-- Pilih Region --</option>
+            <option value="Jawa Timur">Jawa Timur</option>
+            <option value="Jawa Tengah">Jawa Tengah</option>
+            <option value="Jabek & Other Island">Jabek & Other Island</option>
+            <option value="Bali">Bali</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><input type="submit" value="Submit"></td>
+      </tr>
+    </table>
+  </form>
+
+  <p>Mulai kerjakan Pre Test</p>
+  <a id="pretest-link" href="#" target="_blank">
+    <button id="pretest-button" type="button" disabled>Pre Test</button>
+  </a>
+
+  <script>
+    function updatePreTestLink() {
+      const trainingSelect = document.getElementById('nama-training');
+      const selectedValue = trainingSelect.value;
+      const pretestLink = document.getElementById('pretest-link');
+      const pretestButton = document.getElementById('pretest-button');
+
+      if (selectedValue === 'Training Product') {
+        pretestLink.href = 'pre_test_gpt.html';
+        pretestButton.disabled = false;
+      } else if (selectedValue === 'Training Product Knowledge') {
+        pretestLink.href = 'lala.html';
+        pretestButton.disabled = false;
+      } else {
+        pretestLink.href = '#';
+        pretestButton.disabled = true;
+      }
+    }
+  </script>
+
+</body>
+</html>

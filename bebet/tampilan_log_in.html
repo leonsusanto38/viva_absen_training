@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Training Viva Apotek</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    table {
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    td {
+      padding: 8px 10px;
+      vertical-align: top;
+    }
+    label {
+      font-weight: bold;
+    }
+    button {
+      padding: 9px 18px;
+      border: none;
+      background-color: #f3098a;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+    button:hover {
+      background-color: #c2076e;
+    }
+  </style>
+</head>
+<body>
+  <h2>Login Training Viva Apotek</h2>
+  <img src="D:\Master\pindahan\Landscape Cetak CMYK.png" alt="Logo Viva Apotek" width="300px">
+
+  <form id="loginForm">
+    <table>
+      <tr>
+        <td><label for="name">Nama Lengkap:</label></td>
+        <td><input type="text" id="name" name="name" required /></td>
+      </tr>
+      <tr>
+        <td><label for="nik">NIK:</label></td>
+        <td><input type="text" id="nik" name="nik" required /></td>
+      </tr>
+    </table>
+    <button type="submit">Log in</button>
+  </form>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const nik = document.getElementById("nik").value;
+
+      fetch("https://script.google.com/macros/s/AKfycbw37Zu8L9PLH2gld5AZCRYwypafhcBCdsztn5sy_dJzR3FIjy7NY50l2GqAhPy86J-s/exec", {
+        method: "POST",
+        body: JSON.stringify({ name: name, nik: nik }),
+        headers: { "Content-Type": "application/json" },
+        mode: "no-cors"   // biar tidak error CORS
+      });
+
+      alert("Data berhasil dikirim ke Google Sheet!");
+      document.getElementById("loginForm").reset();
+    });
+  </script>
+</body>
+</html>

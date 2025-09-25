@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timer Ujian</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 50px;
+    }
+    #timer {
+      font-size: 2em;
+      color: red;
+      font-weight: bold;
+    }
+    .soal {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Ujian Online</h2>
+  <div id="timer">00:00</div>
+
+  <div class="soal">
+    <p><b>Soal 1:</b> 2 + 2 = ?</p>
+    <input type="text">
+  </div>
+
+  <div class="soal">
+    <p><b>Soal 2:</b> Ibukota Indonesia adalah?</p>
+    <input type="text">
+  </div>
+
+  <button onclick="submitUjian()">Kumpulkan Jawaban</button>
+
+  <script>
+    // Waktu dalam detik (contoh: 5 menit = 300 detik)
+    let waktu = 300; 
+
+    let timerDisplay = document.getElementById("timer");
+    let countdown = setInterval(function() {
+      let menit = Math.floor(waktu / 60);
+      let detik = waktu % 60;
+
+      // Format agar selalu 2 digit
+      menit = menit < 10 ? "0" + menit : menit;
+      detik = detik < 10 ? "0" + detik : detik;
+
+      timerDisplay.textContent = menit + ":" + detik;
+
+      if (waktu <= 0) {
+        clearInterval(countdown);
+        alert("Waktu habis! Jawaban otomatis dikumpulkan.");
+        submitUjian();
+      }
+      waktu--;
+    }, 1000);
+
+    function submitUjian() {
+      // Contoh sederhana, bisa diganti dengan kirim data ke server
+      alert("Jawaban dikumpulkan!");
+    }
+  </script>
+</body>
+</html>

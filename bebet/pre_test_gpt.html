@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Pre-Test Training Product</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        #timer {
+            font-size: 2em;
+            color: red;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 700px;
+            margin: auto;
+        }
+        h2 {
+            text-align: center;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .question p {
+            font-weight: bold;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #c42883;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #a31c6b;
+        }
+        table {
+            margin-bottom: 30px;
+            width: 100%;
+        }
+        td {
+            padding: 5px;
+        }
+        label {
+            font-weight: normal;
+        }
+        img.logo {
+            display: block;
+            margin: 0 auto 20px auto;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Logo -->
+    <img src="D:\Master\pindahan\Landscape Cetak CMYK.png" width="300" height="80" alt="Logo Viva Apotek" class="logo">
+
+    <!-- Form Data Diri -->
+    <form action="#" method="post">
+        <table>
+            <tr>
+                <td><label for="tanggal-training">Tanggal Training:</label></td>
+                <td><input type="date" id="tanggal-training" name="tanggal-training"></td>
+            </tr>
+            <tr>
+                <td><label for="name">Nama Lengkap:</label></td>
+                <td><input type="text" id="name" name="name"></td>
+            </tr>
+            <tr>
+                <td><label for="nik">NIK:</label></td>
+                <td><input type="text" id="nik" name="nik"></td>
+            </tr>
+        </table>
+
+        <!-- Judul Pre-Test -->
+        <h2>Pre-Test Training Product</h2>
+        <div id="timer">00:00</div>
+        <!-- Soal 1 -->
+        <div class="question">
+            <p>Apa kandungan bahan alami di bawah ini yang bermanfaat sebagai super antioksidan?</p>
+            <label><input type="radio" name="q1" value="a"> a. Hyaluronic acid</label><br>
+            <label><input type="radio" name="q1" value="b"> b. Niacinamide</label><br>
+            <label><input type="radio" name="q1" value="c"> c. Astaxanthin</label><br>
+            <label><input type="radio" name="q1" value="d"> d. Posbiotic</label>
+        </div>
+
+        <!-- Soal 2 -->
+        <div class="question">
+            <p>Bahan alami yang terdapat pada Natur-E Advance Age Rejuve & Glow Series adalah:</p>
+            <label><input type="radio" name="q2" value="a"> a. Astaxantine, Vit E, Lycopene, Postbiotic</label><br>
+            <label><input type="radio" name="q2" value="b"> b. Astaxantine, Glutathione, Olive Extract</label><br>
+            <label><input type="radio" name="q2" value="c"> c. Astaxantine, Lumiglow, Vit E</label><br>
+            <label><input type="radio" name="q2" value="d"> d. Astaxantine, Vit E, e-Beads</label>
+        </div>
+
+        <!-- Soal 3 -->
+        <div class="question">
+            <p>Berikut ini adalah keunggulan dari produk Natur-E Advance Age Rejuve & Glow Series:</p>
+            <label><input type="radio" name="q3" value="a"> a. Mengurangi Kerutan, Meningkatkan elastisitas kulit & menyamarkan flek hitam</label><br>
+            <label><input type="radio" name="q3" value="b"> b. Tone Up Effect</label><br>
+            <label><input type="radio" name="q3" value="c"> c. Menyebabkan Kulit Kering</label><br>
+            <label><input type="radio" name="q3" value="d"> d. Menyebabkan jerawat</label>
+        </div>
+
+        <button type="submit">Kirim Jawaban</button>
+
+        <script>
+            // Waktu dalam detik (contoh: 5 menit = 300 detik)
+            let waktu = 1800; 
+
+            let timerDisplay = document.getElementById("timer");
+            let countdown = 1800(function() {
+                let menit = Math.floor(waktu / 60);
+                let detik = waktu % 60;
+
+            // Format agar selalu 2 digit
+            menit = menit < 10 ? "0" + menit : menit;
+            detik = detik < 10 ? "0" + detik : detik;
+
+            timerDisplay.textContent = menit + ":" + detik;
+
+            if (waktu <= 0) {
+                clearInterval(countdown);
+                alert("Waktu habis! Jawaban otomatis dikumpulkan.");
+                submitUjian();
+            }
+            waktu--;
+        }, 1000);
+
+            function Kirim Jawaban() {
+            // Contoh sederhana, bisa diganti dengan kirim data ke server
+            alert("Jawaban dikumpulkan!");
+            }
+        </script>
+    </form>
+</div>
+
+<p>Mulai Pelajari Materi</p>
+  <a id="materi" href="">
+    <button id="materi" type="button" disabled>Materi</button>
+  </a>
+</body>
+</html>

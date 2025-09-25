@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Dynamic Option</title>
+</head>
+<body>
+  <h3>Pilih Kategori</h3>
+  <select id="kategori">
+    <option value="">-- Pilih --</option>
+    <option value="buah">Buah</option>
+    <option value="sayur">Sayur</option>
+  </select>
+
+  <div id="subKategoriBox" style="margin-top:15px; display:none;">
+    <label for="subKategori">Pilih Sub-Kategori:</label>
+    <select id="subKategori"></select>
+  </div>
+
+  <script>
+    const kategori = document.getElementById("kategori");
+    const subKategoriBox = document.getElementById("subKategoriBox");
+    const subKategori = document.getElementById("subKategori");
+
+    kategori.addEventListener("change", function() {
+      const pilihan = this.value;
+      subKategori.innerHTML = ""; // reset sub-option
+
+      if (pilihan === "buah") {
+        subKategori.innerHTML = `
+          <option value="apel">Apel</option>
+          <option value="mangga">Mangga</option>
+          <option value="pisang">Pisang</option>
+        `;
+        subKategoriBox.style.display = "block";
+      } else if (pilihan === "sayur") {
+        subKategori.innerHTML = `
+          <option value="bayam">Bayam</option>
+          <option value="kangkung">Kangkung</option>
+          <option value="wortel">Wortel</option>
+        `;
+        subKategoriBox.style.display = "block";
+      } else {
+        subKategoriBox.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
