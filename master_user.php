@@ -1,6 +1,17 @@
 <?php
-header("location: master_user.php");
-exit;
+require 'functions.php';
+
+// ambil data dari tabel users
+$users = GetUsers();
+
+$roleOptions = GetRoleOptions();
+
+// ambil data (fetch) user dari objek result
+// while($users = mysqli_fetch_assoc($result)){
+//   var_dump($users["name"]);
+// }
+
+require 'header.php';
 ?>
 
     <div class="container my-5">
