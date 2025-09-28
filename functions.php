@@ -49,4 +49,19 @@ function GetRoleOptions()
 {
     return query("SELECT * FROM roles WHERE active = 'y' ORDER BY name ASC");
 }
+
+function AddUser($data)
+{
+    global $conn;
+    $nama = $data.name;
+    $result = mysqli_query($conn, $query);
+    if (!$result) {
+        die("Query gagal: " . mysqli_error($conn));
+    }
+    $rows = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $rows[] = $row;
+    }
+    return $rows;
+}
 ?>
