@@ -6,8 +6,8 @@ $roleOptions = GetRoleOptions();
 $name = "";
 $nik = "";
 $password = "";
-// $role = "";
-// $status = "";
+$role = "";
+$status = "";
 
 $errorMessage = "";
 $successMesssage = "";
@@ -16,18 +16,26 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
   $name = $_POST["name"];
   $nik = $_POST["nik"];
   $password = $_POST["password"];
-  // $role = $_POST["role"] ?? '';
-  // $status = $_POST["status"] ?? '';
+  $role = $_POST["role"];
+  $status = $_POST["status"];
 
-  $data = {$name, $nik, $password}
+  $data = [
+    'name' => $name,
+    'nik' => $nik,
+    'password' => $password,
+    'role' => $role,
+    'status' => $status
+  ];
 
-  AddUser($data);
-
-  $successMessage = "User berhasil disimpan";
+  if(CreateUser($data)) {
+    $successMessage = "User berhasil disimpan";
+  }
 
   $name = "";
   $nik = "";
   $password = "";
+  $role = "";
+  $status = "";
 }
 ?>
 
@@ -101,10 +109,10 @@ if(!empty($successMessage)) {
   <div class="row">
     <div class="col">
       <div class="form-floating mb-3">
-        <select class="form-select" id="role">
-          <option selected>== Pilih Role ==</option>
+        <select class="form-select" id="role" name="role" required>
+          <option value="" selected>== Pilih Role ==</option>
           <?php foreach($roleOptions as $option) : ?>
-          <option><?= $option["name"] ?></option>
+          <option value="<?= $option["id"] ?>"><?= $option["name"] ?></option>
           <?php endforeach; ?>
         </select>
         <label for="role" class="col-form-label">Role:</label>
@@ -112,9 +120,9 @@ if(!empty($successMessage)) {
     </div>
     <div class="col">
       <div class="form-floating mb-3">
-        <select class="form-select" id="status">
-          <option selected>Active</option>
-          <option>Inactive</option>
+        <select class="form-select" id="status" name="status" required>
+          <option value="y" selected>Active</option>
+          <option value="n">Inactive</option>
         </select>
         <label for="status" class="col-form-label">Status:</label>
       </div>

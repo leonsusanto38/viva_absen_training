@@ -50,18 +50,43 @@ function GetRoleOptions()
     return query("SELECT * FROM roles WHERE active = 'y' ORDER BY name ASC");
 }
 
-function AddUser($data)
+function CreateUser($data)
 {
     global $conn;
-    $nama = $data.name;
+    $name = $data["name"];
+    $nik = $data["nik"];
+    $password = $data["password"];
+    $role = $data["role"];
+    $status = $data["status"];
+
+    // echo $name.$nik.$password.$role.$status;
+    
+    $query = "INSERT INTO USERS(
+                name,
+                nik,
+                password,
+                role_id,
+                created_by,
+                created_at,
+                updated_by,
+                active
+            ) VALUES(
+                '$name',
+                '$nik',
+                '$password',
+                $role,
+                1,
+                current_timestamp(),
+                1,
+                '$status'
+            )
+    ";
+
     $result = mysqli_query($conn, $query);
     if (!$result) {
         die("Query gagal: " . mysqli_error($conn));
     }
-    $rows = [];
-    while ($row = mysqli_fetch_assoc($result)) {
-        $rows[] = $row;
-    }
-    return $rows;
+
+    return true;
 }
 ?>
