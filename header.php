@@ -1,5 +1,5 @@
 <?php
-require 'functions.php';
+require '../functions.php';
 session_start();
 ?>
 
@@ -35,7 +35,7 @@ session_start();
                 Master
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="master_user.php">Master User</a></li>
+                <li><a class="dropdown-item" href="master/master_user.php">Master User</a></li>
                 <li><a class="dropdown-item" href="#">Master Role</a></li>
               </ul>
             </li>

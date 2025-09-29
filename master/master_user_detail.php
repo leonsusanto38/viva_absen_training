@@ -1,5 +1,5 @@
 <?php 
-require 'header.php';
+require '../header.php';
 
 $roleOptions = GetRoleOptions();
 
@@ -44,7 +44,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
       $role = "";
       $active = "";
 
-      header("location: /viva_absen_training/master_user.php");
+      header("location: master_user.php");
       exit;
     } else {
       $errorMessage = $result;
@@ -87,7 +87,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
       $role = "";
       $active = "";
 
-      header("location: /viva_absen_training/master_user.php");
+      header("location: master_user.php");
       exit;
     } else {
       $errorMessage = $result;
@@ -95,27 +95,24 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
   
 } else if($_SERVER['REQUEST_METHOD'] == 'GET') {
-  if(!isset($_GET["id"])) {
-    header("location: /viva_absen_training/master_user.php");
-    exit;
+  if(isset($_GET["id"])) {
+    $id = $_GET["id"];
+    $result = GetUserById($id);
+    if(count($result) == 0) {
+      header("location: master_user.php");
+      exit;
+    }
+    $user = $result[0];
+    $name = $user["name"];
+    $nik = $user["nik"];
+    $password = $user["password"];
+    $created_at = $user["created_at"];
+    $created_by = $user["created_by"];
+    $updated_at = $user["updated_at"];
+    $updated_by = $user["updated_by"];
+    $role = $user["role_id"];
+    $active = $user["active"];
   }
-
-  $id = $_GET["id"];
-  $result = GetUserById($id);
-  if(count($result) == 0) {
-    header("location: /viva_absen_training/master_user.php");
-    exit;
-  }
-  $user = $result[0];
-  $name = $user["name"];
-  $nik = $user["nik"];
-  $password = $user["password"];
-  $created_at = $user["created_at"];
-  $created_by = $user["created_by"];
-  $updated_at = $user["updated_at"];
-  $updated_by = $user["updated_by"];
-  $role = $user["role_id"];
-  $active = $user["active"];
 }
 ?>
 
@@ -216,5 +213,5 @@ if(!empty($successMessage)) {
 </form>
 
 <?php 
-require 'footer.php';
+require '../footer.php';
 ?>

@@ -1,5 +1,5 @@
 <?php
-require 'header.php';
+require '../header.php';
 // ambil data dari tabel users
 $users = GetUsers();
 
@@ -93,5 +93,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
 </table>
 
 <?php 
-require 'footer.php';
+require '../footer.php';
 ?>

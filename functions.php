@@ -110,10 +110,10 @@ function CreateUser($data)
         mysqli_query($conn, $query);
         return true;
     } catch (mysqli_sql_exception $e) {
-        // if ($e->getCode() == 1062) {
-        //     // Duplicate entry
-        //     return "NIK sudah terdaftar!";
-        // }
+        if ($e->getCode() == 1062) {
+            // Duplicate entry
+            return "NIK sudah terdaftar!";
+        }
         return "Terjadi kesalahan: " . $e->getMessage();
     }
 }
@@ -143,10 +143,10 @@ function UpdateUser($data)
         mysqli_query($conn, $query);
         return true;
     } catch (mysqli_sql_exception $e) {
-        // if ($e->getCode() == 1062) {
-        //     // Duplicate entry
-        //     return "NIK sudah terdaftar!";
-        // }
+        if ($e->getCode() == 1062) {
+            // Duplicate entry
+            return "NIK sudah terdaftar!";
+        }
         return "Terjadi kesalahan: " . $e->getMessage();
     }
 }
