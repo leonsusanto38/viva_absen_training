@@ -3,39 +3,119 @@ require 'header.php';
 
 $roleOptions = GetRoleOptions();
 
+$id = "";
 $name = "";
 $nik = "";
 $password = "";
+$created_at = "";
+$created_by = "";
+$updated_at = "";
+$updated_by = "";
 $role = "";
-$status = "";
+$active = "";
 
 $errorMessage = "";
 $successMesssage = "";
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
-  $name = $_POST["name"];
-  $nik = $_POST["nik"];
-  $password = $_POST["password"];
-  $role = $_POST["role"];
-  $status = $_POST["status"];
+  if(!isset($_GET["id"])) { // id tidak ada -> create user
+    $name = $_POST["name"];
+    $nik = $_POST["nik"];
+    $password = $_POST["password"];
+    $role = $_POST["role"];
+    $active = $_POST["active"];
 
-  $data = [
-    'name' => $name,
-    'nik' => $nik,
-    'password' => $password,
-    'role' => $role,
-    'status' => $status
-  ];
+    $data = [
+      'name' => $name,
+      'nik' => $nik,
+      'password' => $password,
+      'role' => $role,
+      'active' => $active
+    ];
 
-  if(CreateUser($data)) {
-    $successMessage = "User berhasil disimpan";
+    $result = CreateUser($data);
+
+    if($result === true) {
+      $_SESSION['successMessage'] = "User berhasil disimpan";
+
+      $name = "";
+      $nik = "";
+      $password = "";
+      $role = "";
+      $active = "";
+
+      header("location: /viva_absen_training/master_user.php");
+      exit;
+    } else {
+      $errorMessage = $result;
+    }
+
+    $name = "";
+    $nik = "";
+    $password = "";
+    $role = "";
+    $active = "";
+  } else { // id ada -> update user
+    $id = $_POST["id"];
+    $name = $_POST["name"];
+    $nik = $_POST["nik"];
+    $password = $_POST["password"];
+    $updated_by = 1;
+    $role = $_POST["role"];
+    $active = $_POST["active"];
+
+    $data = [
+      'id' => $id,
+      'name' => $name,
+      'nik' => $nik,
+      'password' => $password,
+      'updated_by' => $updated_by,
+      'role' => $role,
+      'active' => $active
+    ];
+
+    $result = UpdateUser($data);
+
+    if($result === true) {
+      $_SESSION['successMessage'] = "User berhasil diupdate";
+
+      $id = "";
+      $name = "";
+      $nik = "";
+      $password = "";
+      $updated_by = "";
+      $role = "";
+      $active = "";
+
+      header("location: /viva_absen_training/master_user.php");
+      exit;
+    } else {
+      $errorMessage = $result;
+    }
+  }
+  
+} else if($_SERVER['REQUEST_METHOD'] == 'GET') {
+  if(!isset($_GET["id"])) {
+    header("location: /viva_absen_training/master_user.php");
+    exit;
   }
 
-  $name = "";
-  $nik = "";
-  $password = "";
-  $role = "";
-  $status = "";
+  $id = $_GET["id"];
+  $result = GetUserById($id);
+  if(count($result) == 0) {
+    header("location: /viva_absen_training/master_user.php");
+    exit;
+  }
+  $user = $result[0];
+  $name = $user["name"];
+  $nik = $user["nik"];
+  $password = $user["password"];
+  $created_at = $user["created_at"];
+  $created_by = $user["created_by"];
+  $updated_at = $user["updated_at"];
+  $updated_by = $user["updated_by"];
+  $role = $user["role_id"];
+  $active = $user["active"];
 }
 ?>
 
@@ -48,7 +128,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 <?php
 if(!empty($errorMessage)) {
   echo "
-    <div class='alert alert-warning alert-dismissible fade show' role='alert'>
+    <div class='alert alert-danger alert-dismissible fade show' role='alert'>
       <strong>$errorMessage</strong>
       <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
     </div>
@@ -66,6 +146,7 @@ if(!empty($successMessage)) {
 ?>
 
 <form method="post">
+  <input type="hidden" name="id" value="<?= $id ?>">
   <div class="form-floating mb-3">
     <input type="text" class="form-control" id="name" name="name" placeholder="name" value="<?= $name ?>" required>
     <label for="name">Name</label>
@@ -75,19 +156,19 @@ if(!empty($successMessage)) {
     <label for="nik">NIK</label>
   </div>
   <div class="form-floating mb-3">
-    <input type="text" class="form-control" id="password" name="password" placeholder="password"  value="<?= $password ?>" required>
+    <input type="text" class="form-control" id="password" name="password" placeholder="password" value="<?= $password ?>" required>
     <label for="password">Password</label>
   </div>
   <div class="row">
     <div class="col">
       <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="created_at" placeholder="Created at" disabled>
+        <input type="text" class="form-control" id="created_at" name="created_at" placeholder="Created at" value="<?= $created_at ?>" disabled>
         <label for="created_at">Created at</label>
       </div>
     </div>
     <div class="col">
       <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="created_by" placeholder="Created by" disabled>
+        <input type="text" class="form-control" id="created_by" name="created_by" placeholder="Created by" value="<?= $created_by ?>" disabled>
         <label for="created_by">Created by</label>
       </div>
     </div>
@@ -95,13 +176,13 @@ if(!empty($successMessage)) {
   <div class="row">
     <div class="col">
       <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="updated_at" placeholder="Updated at" disabled>
+        <input type="text" class="form-control" id="updated_at" name="updated_at" placeholder="Updated at" value="<?= $updated_at ?>" disabled>
         <label for="updated_at">Updated at</label>
       </div>
     </div>
     <div class="col">
       <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="updated_by" placeholder="Updated by" disabled>
+        <input type="text" class="form-control" id="updated_by" name="updated_by" placeholder="Updated by" value="<?= $updated_by ?>" disabled>
         <label for="updated_by">Updated by</label>
       </div>
     </div>
@@ -112,7 +193,7 @@ if(!empty($successMessage)) {
         <select class="form-select" id="role" name="role" required>
           <option value="" selected>== Pilih Role ==</option>
           <?php foreach($roleOptions as $option) : ?>
-          <option value="<?= $option["id"] ?>"><?= $option["name"] ?></option>
+          <option value="<?= $option["id"] ?>" <?= ($option["id"] == $role) ? 'selected' : '' ?>><?= $option["name"] ?></option>
           <?php endforeach; ?>
         </select>
         <label for="role" class="col-form-label">Role:</label>
@@ -120,11 +201,11 @@ if(!empty($successMessage)) {
     </div>
     <div class="col">
       <div class="form-floating mb-3">
-        <select class="form-select" id="status" name="status" required>
-          <option value="y" selected>Active</option>
-          <option value="n">Inactive</option>
+        <select class="form-select" id="active" name="active" required>
+          <option value="y" <?= ($active == 'y') ? 'selected' : '' ?> selected>Active</option>
+          <option value="n" <?= ($active == 'n') ? 'selected' : '' ?>>Inactive</option>
         </select>
-        <label for="status" class="col-form-label">Status:</label>
+        <label for="active" class="col-form-label">Status:</label>
       </div>
     </div>
   </div>

@@ -45,6 +45,30 @@ function GetUsers()
     return $users; 
 }
 
+function GetUserById($id)
+{
+    $users = query("SELECT 
+                        u.id,
+                        u.name,
+                        u.nik,
+                        u.password,
+                        u.role_id,
+                        u1.name as created_by,
+                        u.created_at,
+                        u2.name as updated_by,
+                        u.updated_at,
+                        u.active
+                    FROM users u
+                        INNER JOIN users u1 on u.created_by = u1.id
+                        INNER JOIN users u2 on u.updated_by = u2.id
+                    -- WHERE u.active = 'y'
+                    WHERE u.id = $id
+                    ORDER BY u.created_at ASC
+    ");
+    
+    return $users; 
+}
+
 function GetRoleOptions()
 {
     return query("SELECT * FROM roles WHERE active = 'y' ORDER BY name ASC");
@@ -57,9 +81,9 @@ function CreateUser($data)
     $nik = $data["nik"];
     $password = $data["password"];
     $role = $data["role"];
-    $status = $data["status"];
+    $active = $data["active"];
 
-    // echo $name.$nik.$password.$role.$status;
+    // echo $name.$nik.$password.$role.$active;
     
     $query = "INSERT INTO USERS(
                 name,
@@ -78,15 +102,64 @@ function CreateUser($data)
                 1,
                 current_timestamp(),
                 1,
-                '$status'
+                '$active'
             )
     ";
 
-    $result = mysqli_query($conn, $query);
-    if (!$result) {
-        die("Query gagal: " . mysqli_error($conn));
+    try {
+        mysqli_query($conn, $query);
+        return true;
+    } catch (mysqli_sql_exception $e) {
+        // if ($e->getCode() == 1062) {
+        //     // Duplicate entry
+        //     return "NIK sudah terdaftar!";
+        // }
+        return "Terjadi kesalahan: " . $e->getMessage();
     }
+}
 
-    return true;
+function UpdateUser($data)
+{
+    global $conn;
+    $id = $data["id"];
+    $name = $data["name"];
+    $nik = $data["nik"];
+    $password = $data["password"];
+    $updated_by = $data["updated_by"];
+    $role = $data["role"];
+    $active = $data["active"];
+
+    $query = "UPDATE USERS SET
+                name = '$name',
+                nik = '$nik',
+                password = '$password',
+                updated_by = '$updated_by',
+                role_id = $role,
+                active = '$active'
+            WHERE id = $id
+    ";
+
+    try {
+        mysqli_query($conn, $query);
+        return true;
+    } catch (mysqli_sql_exception $e) {
+        // if ($e->getCode() == 1062) {
+        //     // Duplicate entry
+        //     return "NIK sudah terdaftar!";
+        // }
+        return "Terjadi kesalahan: " . $e->getMessage();
+    }
+}
+
+function DeleteUser($id)
+{
+    global $conn;
+    $query = "DELETE FROM USERS WHERE id = $id";
+    try {
+        mysqli_query($conn, $query);
+        return true;
+    } catch (mysqli_sql_exception $e) {
+        return "Terjadi kesalahan: " . $e->getMessage();
+    }
 }
 ?>
