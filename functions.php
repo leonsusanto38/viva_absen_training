@@ -77,9 +77,9 @@ function GetRoleOptions()
 function CreateUser($data)
 {
     global $conn;
-    $name = $data["name"];
-    $nik = $data["nik"];
-    $password = $data["password"];
+    $name = htmlspecialchars($data["name"]);
+    $nik = htmlspecialchars($data["nik"]);
+    $password = htmlspecialchars($data["password"]);
     $role = $data["role"];
     $active = $data["active"];
 
@@ -122,9 +122,9 @@ function UpdateUser($data)
 {
     global $conn;
     $id = $data["id"];
-    $name = $data["name"];
-    $nik = $data["nik"];
-    $password = $data["password"];
+    $name = htmlspecialchars($data["name"]);
+    $nik = htmlspecialchars($data["nik"]);
+    $password = htmlspecialchars($data["password"]);
     $updated_by = $data["updated_by"];
     $role = $data["role"];
     $active = $data["active"];
@@ -134,6 +134,7 @@ function UpdateUser($data)
                 nik = '$nik',
                 password = '$password',
                 updated_by = '$updated_by',
+                updated_at = current_timestamp(),
                 role_id = $role,
                 active = '$active'
             WHERE id = $id
@@ -167,4 +168,31 @@ function GetRoles()
 {
     return query("SELECT * FROM roles ORDER BY name ASC");
 }
+
+function SearchUsers($key)
+{
+    $users = query("SELECT 
+                        u.id,
+                        u.name,
+                        u.nik,
+                        u.password,
+                        r.name as role,
+                        u1.name as created_by,
+                        u.created_at,
+                        u2.name as updated_by,
+                        u.updated_at,
+                        u.active
+                    FROM users u
+                        INNER JOIN roles r ON u.role_id = r.id
+                        INNER JOIN users u1 on u.created_by = u1.id
+                        INNER JOIN users u2 on u.updated_by = u2.id
+                    WHERE 1 = 1
+                        AND u.name like '%$key%'
+                            OR u.nik like '%$key%'
+                    ORDER BY u.created_at ASC
+    ");
+    
+    return $users; 
+}
+
 ?>

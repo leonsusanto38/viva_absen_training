@@ -14,6 +14,10 @@ if(isset($_SESSION['successMessage'])) {
   unset($_SESSION['successMessage']); // Hapus agar tidak muncul lagi saat refresh
 }
 
+if(isset($_POST['search'])) {
+  $users = SearchUsers($_POST['key']);
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
     $id = $_POST['delete'];
     $result = DeleteUser($id);
@@ -34,6 +38,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
 <button type="button" class="btn btn-primary my-3" onclick="window.location.href='master_user_detail.php'">
   Add User
 </button>
+
+<form class="mt-3 d-flex col-4" method="post">
+  <input class="form-control me-2" type="search" name="key" placeholder="cari..." aria-label="Search" autofocus>
+  <button class="btn btn-outline-success" type="submit" name="search">Search</button>
+</form>
 
 <table class="table table-hover">
   <thead>

@@ -96,7 +96,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
   
 } else if($_SERVER['REQUEST_METHOD'] == 'GET') {
   if(isset($_GET["id"])) {
-    $title = "User Detail";
+    $_SESSION["TITLE"] = "User Detail";
+    $_SESSION["SAVE"] = "mengupdate";
     $id = $_GET["id"];
     $result = GetUserById($id);
     if(count($result) == 0) {
@@ -114,7 +115,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $role = $user["role_id"];
     $active = $user["active"];
   } else {
-    $title = "Add User";
+    $_SESSION["TITLE"] = "Add User";
+    $_SESSION["SAVE"] = "menambahkan";
   }
 }
 ?>
@@ -123,7 +125,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
   &larr; Back
 </button>
 
-<h1 class="h1 my-3"><?= $title ?></h1>
+<h1 class="h1 my-3"><?= $_SESSION["TITLE"] ?></h1>
 
 <?php
 if(!empty($errorMessage)) {
@@ -211,7 +213,28 @@ if(!empty($successMessage)) {
   </div>
 
   <div class="d-flex justify-content-center mt-3">
-    <button type="submit" class="btn btn-primary px-5">Save</button>
+    <button type="button" class="btn btn-primary px-5" data-bs-toggle="modal" data-bs-target="#confirmSaveModal">
+      Save
+    </button>
+  </div>
+
+  <div class="modal fade" id="confirmSaveModal" tabindex="-1" aria-labelledby="confirmSaveModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmSaveModalLabel">Konfirmasi</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Apakah Anda yakin ingin <?= $_SESSION["SAVE"] ?> data ini?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+          <!-- Tombol Submit Form -->
+          <button type="submit" class="btn btn-primary" id="confirmSaveBtn">Ya</button>
+        </div>
+      </div>
+    </div>
   </div>
 </form>
 
