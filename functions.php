@@ -162,4 +162,9 @@ function DeleteUser($id)
         return "Terjadi kesalahan: " . $e->getMessage();
     }
 }
+
+function GetRoles()
+{
+    return query("SELECT * FROM roles ORDER BY name ASC");
+}
 ?>

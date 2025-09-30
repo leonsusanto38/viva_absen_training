@@ -1,7 +1,7 @@
 <?php
 require '../header.php';
 // ambil data dari tabel users
-$users = GetUsers();
+$role = GetRoles();
 
 if(isset($_SESSION['successMessage'])) {
   echo "
@@ -28,11 +28,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
 }
 ?>
 
-<h1 class="h1">Master User</h1>
+<h1 class="h1">Master Role</h1>
 
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary my-3" onclick="window.location.href='master_user_detail.php'">
-  Add User
+  Add Role
 </button>
 
 <table class="table table-hover">
