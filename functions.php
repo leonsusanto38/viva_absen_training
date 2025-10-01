@@ -79,7 +79,7 @@ function CreateUser($data)
     global $conn;
     $name = htmlspecialchars($data["name"]);
     $nik = htmlspecialchars($data["nik"]);
-    $password = htmlspecialchars($data["password"]);
+    $password = $data["password"] ? htmlspecialchars(mysqli_real_escape_string($data["password"])) : "password123";
     $role = $data["role"];
     $active = $data["active"];
 

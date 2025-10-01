@@ -158,7 +158,7 @@ if(!empty($successMessage)) {
     <label for="nik">NIK</label>
   </div>
   <div class="form-floating mb-3">
-    <input type="text" class="form-control" id="password" name="password" placeholder="password" value="<?= $password ?>" required>
+    <input type="text" class="form-control" id="password" name="password" placeholder="password" value="<?= $password ?>">
     <label for="password">Password</label>
   </div>
   <div class="row">
