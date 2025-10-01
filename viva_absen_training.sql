@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 28, 2025 at 06:47 AM
+-- Generation Time: Oct 01, 2025 at 06:16 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -56,7 +56,6 @@ CREATE TABLE `users` (
   `name` varchar(100) NOT NULL,
   `nik` varchar(10) NOT NULL,
   `password` varchar(100) DEFAULT 'password123',
-  `password_hash` varchar(200) DEFAULT NULL,
   `role_id` int(11) NOT NULL,
   `created_by` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
@@ -69,9 +68,11 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `nik`, `password`, `password_hash`, `role_id`, `created_by`, `created_at`, `updated_by`, `updated_at`, `active`) VALUES
-(1, 'Leon Susanto', '123', 'password123', NULL, 1, 1, '2025-09-20 20:39:43', 1, '2025-09-21 15:13:47', 'y'),
-(2, 'Elizabeth', '321', 'password123', NULL, 2, 1, '2025-09-21 15:03:11', 1, '2025-09-21 15:03:11', 'y');
+INSERT INTO `users` (`id`, `name`, `nik`, `password`, `role_id`, `created_by`, `created_at`, `updated_by`, `updated_at`, `active`) VALUES
+(1, 'Leon Susanto', '123', '$2y$10$hPmjS0eMO.czuS9wjJ67Ru8H6hKLEQr6ox2iZTXCczgoonaYIgXXm', 1, 1, '2025-09-20 20:39:43', 1, '2025-10-01 20:25:31', 'y'),
+(2, 'Elizabeth', '321', '$2y$10$nvBjMsH4ibIEaqmQ5.4fuOYzggDCrQORWm2DZHQqxtVJ5JeA.BIwC', 1, 1, '2025-09-21 15:03:11', 1, '2025-10-01 20:25:46', 'y'),
+(3, 'colo', '1234', '$2y$10$BRql0uhfixSK1RcOC5M1Fe0MwUdxhHOml.sAxWqqRRI9mCcVN7CvO', 2, 1, '2025-09-30 21:18:05', 1, '2025-10-01 23:05:09', 'n'),
+(14, 'zerlina', '666', '$2y$10$e1C9uPLsfSKVtQfY//788ufLnwBrPgOUD0xrMAnBl7zAyKVitSGV2', 2, 1, '2025-10-01 23:09:39', 1, '2025-10-01 23:10:51', 'y');
 
 --
 -- Indexes for dumped tables
@@ -87,7 +88,8 @@ ALTER TABLE `roles`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `nik` (`nik`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -103,7 +105,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
