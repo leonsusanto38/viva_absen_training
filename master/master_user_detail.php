@@ -1,4 +1,12 @@
 <?php 
+if($_SERVER['REQUEST_METHOD'] == 'GET') {
+  if(isset($_GET["id"])) {
+    $headTitle = "User Detail - ";
+    
+  } else {
+    $headTitle = "Add User - ";
+  }
+}
 require '../header.php';
 
 $roleOptions = GetRoleOptions();
@@ -29,6 +37,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
       'name' => $name,
       'nik' => $nik,
       'password' => $password,
+      'created_by' => $_SESSION["uid"],
       'role' => $role,
       'active' => $active
     ];
@@ -60,7 +69,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST["name"];
     $nik = $_POST["nik"];
     $password = $_POST["password"];
-    $updated_by = 1;
+    $updated_by = $_SESSION["uid"];
     $role = $_POST["role"];
     $active = $_POST["active"];
 

@@ -79,7 +79,9 @@ function CreateUser($data)
     global $conn;
     $name = htmlspecialchars($data["name"]);
     $nik = htmlspecialchars($data["nik"]);
-    $password = $data["password"] ? htmlspecialchars(mysqli_real_escape_string($data["password"])) : "password123";
+    $created_by = $data["created_by"];
+    $password = $data["password"] ? htmlspecialchars(mysqli_real_escape_string($conn, $data["password"])) : "password123";
+    $password = password_hash($password, PASSWORD_DEFAULT);
     $role = $data["role"];
     $active = $data["active"];
 
@@ -99,9 +101,9 @@ function CreateUser($data)
                 '$nik',
                 '$password',
                 $role,
-                1,
+                $created_by,
                 current_timestamp(),
-                1,
+                $created_by,
                 '$active'
             )
     ";
@@ -124,7 +126,8 @@ function UpdateUser($data)
     $id = $data["id"];
     $name = htmlspecialchars($data["name"]);
     $nik = htmlspecialchars($data["nik"]);
-    $password = htmlspecialchars($data["password"]);
+    $password = $data["password"] ? htmlspecialchars(mysqli_real_escape_string($conn, $data["password"])) : "password123";
+    $password = password_hash($password, PASSWORD_DEFAULT);
     $updated_by = $data["updated_by"];
     $role = $data["role"];
     $active = $data["active"];

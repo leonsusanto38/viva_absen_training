@@ -1,4 +1,5 @@
 <?php
+$headTitle = "Master User - ";
 require '../header.php';
 // ambil data dari tabel users
 $users = GetUsers();
@@ -39,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
   Add User
 </button>
 
-<form class="mt-3 d-flex col-4" method="post">
+<form class="mt-3 d-flex col-10 col-lg-4" method="post">
   <input class="form-control me-2" type="search" name="key" placeholder="cari..." aria-label="Search" autofocus>
   <button class="btn btn-outline-success" type="submit" name="search">Search</button>
 </form>
@@ -56,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
       <th scope="col">Created By</th>
       <th scope="col">Updated At</th>
       <th scope="col">Updated By</th> -->
-      <th scope="col">Status</th>
+      <th scope="col" class="text-center">Status</th>
       <th scope="col" class="text-center">Action</th>
     </tr>
   </thead>
@@ -74,9 +75,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
           <td><?= $user["created_by"]; ?></td>
           <td><?= date('j/m/Y, H:i:s', strtotime($user["updated_at"])); ?></td>
           <td><?= $user["updated_by"]; ?></td> -->
-          <td>
-            <span class="badge bg-<?= $user['active'] ? 'success' : 'secondary' ?>">
-              <?= $user["active"] ? 'ACTIVE' : 'INACTIVE' ?>
+          <td class="text-center">
+            <span class="badge bg-<?= $user['active'] == 'y' ? 'success' : 'secondary' ?>">
+              <?= $user["active"] == 'y' ? 'ACTIVE' : 'INACTIVE' ?>
             </span>
           </td>
           <td class="text-center">
