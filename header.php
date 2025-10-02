@@ -59,10 +59,10 @@ if(!$_SESSION["login"]) {
           <ul class="navbar-nav ms-auto align-items-center">
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
-                Hello, <?= $_SESSION["user_name"]; ?>
+                Hello, <?= $_SESSION["user_name"] ?> <?= $_SESSION["role"] == "administrator" ? "(Admin)" : "" ?>
               </a>
               <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="#">Ubah Password</a></li>
+                <li><a class="dropdown-item" href="/viva_absen_training/profile.php">Ubah Password</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item text-danger" href="/viva_absen_training/logout.php">Logout</a></li>
               </ul>

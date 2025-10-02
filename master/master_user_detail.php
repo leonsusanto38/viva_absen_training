@@ -14,13 +14,13 @@ $roleOptions = GetRoleOptions();
 $id = "";
 $name = "";
 $nik = "";
-$password = "";
 $created_at = "";
 $created_by = "";
 $updated_at = "";
 $updated_by = "";
 $role = "";
 $active = "";
+$reset_password = false;
 
 $errorMessage = "";
 $successMesssage = "";
@@ -29,14 +29,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
   if(!isset($_GET["id"])) { // id tidak ada -> create user
     $name = $_POST["name"];
     $nik = $_POST["nik"];
-    $password = $_POST["password"];
     $role = $_POST["role"];
     $active = $_POST["active"];
 
     $data = [
       'name' => $name,
       'nik' => $nik,
-      'password' => $password,
       'created_by' => $_SESSION["uid"],
       'role' => $role,
       'active' => $active
@@ -49,7 +47,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
       $name = "";
       $nik = "";
-      $password = "";
       $role = "";
       $active = "";
 
@@ -61,26 +58,25 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $name = "";
     $nik = "";
-    $password = "";
     $role = "";
     $active = "";
   } else { // id ada -> update user
     $id = $_POST["id"];
     $name = $_POST["name"];
     $nik = $_POST["nik"];
-    $password = $_POST["password"];
     $updated_by = $_SESSION["uid"];
     $role = $_POST["role"];
     $active = $_POST["active"];
+    $reset_password = $_POST["reset_password"];
 
     $data = [
       'id' => $id,
       'name' => $name,
       'nik' => $nik,
-      'password' => $password,
       'updated_by' => $updated_by,
       'role' => $role,
-      'active' => $active
+      'active' => $active,
+      'reset_password' => $reset_password
     ];
 
     $result = UpdateUser($data);
@@ -91,7 +87,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
       $id = "";
       $name = "";
       $nik = "";
-      $password = "";
       $updated_by = "";
       $role = "";
       $active = "";
@@ -103,7 +98,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
   }
   
-} else if($_SERVER['REQUEST_METHOD'] == 'GET') {
+} else if($_SERVER['REQUEST_METHOD'] == 'GET') { // mengisi field dari id GET
   if(isset($_GET["id"])) {
     $_SESSION["TITLE"] = "User Detail";
     $_SESSION["SAVE"] = "mengupdate";
@@ -134,7 +129,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
   &larr; Back
 </button>
 
-<h1 class="h1 my-3"><?= $_SESSION["TITLE"] ?></h1>
+<h1 class="h1 my-3 text-center"><?= $_SESSION["TITLE"] ?></h1>
 
 <?php
 if(!empty($errorMessage)) {
@@ -156,7 +151,7 @@ if(!empty($successMessage)) {
 }
 ?>
 
-<form method="post">
+<form method="post" class="col-8 col-md-6 mx-auto">
   <input type="hidden" name="id" value="<?= $id ?>">
   <div class="form-floating mb-3">
     <input type="text" class="form-control" id="name" name="name" placeholder="name" value="<?= $name ?>" required>
@@ -165,10 +160,6 @@ if(!empty($successMessage)) {
   <div class="form-floating mb-3">
     <input type="number" class="form-control" id="nik" name="nik" placeholder="nik" value="<?= $nik ?>" required>
     <label for="nik">NIK</label>
-  </div>
-  <div class="form-floating mb-3">
-    <input type="text" class="form-control" id="password" name="password" placeholder="password" value="<?= $password ?>">
-    <label for="password">Password</label>
   </div>
   <div class="row">
     <div class="col">
@@ -220,6 +211,14 @@ if(!empty($successMessage)) {
       </div>
     </div>
   </div>
+  <?php if(isset($_GET["id"])) : ?>
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" id="reset_password" name="reset_password">
+    <label class="form-check-label" for="reset_password">
+      Reset Password User
+    </label>
+  </div>
+  <?php endif; ?>
 
   <div class="d-flex justify-content-center mt-3">
     <button type="button" class="btn btn-primary px-5" data-bs-toggle="modal" data-bs-target="#confirmSaveModal">

@@ -126,20 +126,24 @@ function UpdateUser($data)
     $id = $data["id"];
     $name = htmlspecialchars($data["name"]);
     $nik = htmlspecialchars($data["nik"]);
-    $password = $data["password"] ? htmlspecialchars(mysqli_real_escape_string($conn, $data["password"])) : "password123";
-    $password = password_hash($password, PASSWORD_DEFAULT);
     $updated_by = $data["updated_by"];
     $role = $data["role"];
     $active = $data["active"];
+    $reset_password = $data["reset_password"];
+    if($reset_password) {
+        $password = "password123";
+        $password = password_hash($password, PASSWORD_DEFAULT);
+        $q = ", password = '$password'";
+    }
 
     $query = "UPDATE USERS SET
                 name = '$name',
                 nik = '$nik',
-                password = '$password',
                 updated_by = '$updated_by',
                 updated_at = current_timestamp(),
                 role_id = $role,
                 active = '$active'
+                $q
             WHERE id = $id
     ";
 
@@ -196,6 +200,48 @@ function SearchUsers($key)
     ");
     
     return $users; 
+}
+
+function ValidatePassword($id, $password)
+{
+    $user = query("SELECT
+                        password
+                    FROM users
+                    WHERE 1 = 1
+                        AND id = $id
+    ");
+
+    if (password_verify(trim($password), trim($user[0]["password"]))) {
+        return true;
+    }
+    return false;
+}
+
+function UpdateProfile($data)
+{
+    global $conn;
+    $id = $data["id"];
+    $password = $data["password"] ? htmlspecialchars(mysqli_real_escape_string($conn, $data["password"])) : "password123";
+    $password = password_hash($password, PASSWORD_DEFAULT);
+    $updated_by = $data["id"];
+
+    $query = "UPDATE USERS SET
+                password = '$password',
+                updated_by = '$updated_by',
+                updated_at = current_timestamp()
+            WHERE id = $id
+    ";
+
+    try {
+        mysqli_query($conn, $query);
+        return true;
+    } catch (mysqli_sql_exception $e) {
+        if ($e->getCode() == 1062) {
+            // Duplicate entry
+            return "NIK sudah terdaftar!";
+        }
+        return "Terjadi kesalahan: " . $e->getMessage();
+    }
 }
 
 ?>

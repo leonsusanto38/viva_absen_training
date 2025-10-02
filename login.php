@@ -25,24 +25,15 @@ if(isset($_POST["login"])) {
       $_SESSION["login"] = true;
       $_SESSION["uid"] = $row["id"];
       $_SESSION["user_name"] = $row["name"];
+      $_SESSION["nik"] = $row["nik"];
       $_SESSION["role"] = $row["role_id"] == 1 ? "administrator" : "user" ;
-      header("location: index.php");
+      header("location: home.php");
       exit;
     }
   }
 
   $errorMessage = "Login Gagal!";
 }
-
-if(!empty($errorMessage)) {
-  echo "
-    <div class='alert alert-danger alert-dismissible fade show' role='alert'>
-      <strong>$errorMessage</strong>
-      <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-    </div>
-  ";
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -56,6 +47,17 @@ if(!empty($errorMessage)) {
 
   <body>
     <div class="container my-5">
+      <?php
+        if(!empty($errorMessage)) {
+          echo "
+            <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+              <strong>$errorMessage</strong>
+              <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+            </div>
+          ";
+        }
+      ?>
+
       <form method="post" class="col-8 col-md-6 col-lg-3 mx-auto">
         <h1 class="h1 mb-3">Login</h1>
         <div class="mb-3">
